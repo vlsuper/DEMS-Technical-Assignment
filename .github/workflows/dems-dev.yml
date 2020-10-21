@@ -1,0 +1,94 @@
+# This is a basic workflow to help yo u get started with Actions
+
+name: DEMS Pipeline For Development Environment
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  lint:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Setup environment to run
+      - name: Setup environment
+        #uses: actions/setup-node
+        run: echo use some action for setup environment!
+
+      # Runs a single command using the runners shell
+      - name: Run static code analysis
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run API contract testing
+        run: |
+          echo  API testing for BE to make sure no mis-match in API contract,
+          echo testing ...
+
+  build:
+    needs: lint
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Setup environment variable
+      - name: Setup machine
+        run: echo Setup machine!
+
+      # Build and tag images for docker file
+      - name: Build and tag image
+        run: echo Docker built image!
+
+      # Push image to artifact repository
+      - name: Push to GCP image registry
+        run: echo Docker push image
+
+  test:
+    needs: build
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Setup environment variable
+      - name: Setup machine
+        run: echo Setup machine!
+
+      # Build and tag images for docker file
+      - name: Build and tag image
+        run: echo Docker built image!
+
+
+  deploy:
+    needs: test
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Setup environment variable
+      - name: Setup machine
+        run: echo Setup machine!
+
+      # Build and tag images for docker file
+      - name: Build and tag image
+        run: echo Docker built image!
