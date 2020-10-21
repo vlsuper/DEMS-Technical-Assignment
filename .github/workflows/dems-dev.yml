@@ -24,7 +24,8 @@ jobs:
 
       # Setup environment to run
       - name: Setup environment
-        uses: actions/setup-node@10x.
+        #uses: actions/setup-node
+        run: echo use some action for setup environment!
 
       # Runs a single command using the runners shell
       - name: Run static code analysis
